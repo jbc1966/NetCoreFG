@@ -35,42 +35,44 @@
 
 @section Scripts{
     <script>
-
         const urlOrdenar = '@Url.Action("ordenar")';
 
-        $(function () {
-            $("#reordenable").sortable({
-                stop: async function (e, ui) {
-                   await actualizarOrdenes();
-                }
-            });
+$(function () {
+    $("#reordenable").sortable({
+        stop: async function (e, ui) {
+            await actualizarOrdenes();
+        }
+    });
 
-            async function actualizarOrdenes() {
-                const ids = obtenerIdsDeElementos();
-                await enviarIdsAlBackend(ids);
-            }  
+    async function actualizarOrdenes() {
+        debugger;
+        const ids = obtenerIdsDeElementos();
+        await enviarIdsAlBackend(ids);
+    }
 
-            function obtenerIdsDeElementos() {
-                debugger;
-                const ids = $(".ids").map(function () {
-                    return $(this).val();
-                }).get();
+    function obtenerIdsDeElementos() {
+        debugger;
+        const ids = $(".ids").map(function () {
+            return $(this).val();
+        }).get();
 
-                return ids;
+        return ids;
+    }
+
+    async function enviarIdsAlBackend(ids) {
+        var data = JSON.stringify(ids);
+
+        await fetch(urlOrdenar, {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
+    }
+})
 
-            async function enviarIdsAlBackend(ids) {
-                var data = JSON.stringify(ids);
 
-                await fetch(urlOrdenar, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-            }
-        })
     </script>
 
 }

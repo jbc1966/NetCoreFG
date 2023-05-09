@@ -14,6 +14,7 @@ namespace ControlGastos.Servicios
 		Task<TipoCuenta> ObtenerPorId(int id, int usuarioId);
 		Task Actualizar(TipoCuenta tipoCuenta);
 		Task Borrar(int id);
+		Task Ordenar(IEnumerable<TipoCuenta> tipoCuentasOrdenados);
     }
 	public class RepositorioTiposCuentas: IRepositorioTiposCuentas
 	{
@@ -31,12 +32,25 @@ namespace ControlGastos.Servicios
 			{
 				tipoCuenta.UsuarioId = 1;
 				using var connection = new SqlConnection(connectionString);
+
+				/* Con esto de abajo ataco directamente la base de datos para insertar
 				var id = await connection.QuerySingleAsync<int>
 													  (@"insert into TiposCuentas (Nombre,UsuarioId,Orden)
                                                   values(@Nombre,@UsuarioId,0);
-                                                  select scope_identity();", tipoCuenta);
+                                                  select scope_identity();", tipoCuenta);  */
 
-				tipoCuenta.Id = id;
+                // Con esto inserto con stored procedure creado en base de datos
+
+				var id = await connection.QuerySingleAsync<int>
+					     ("TiposCuentas_Insertar", new
+						 {
+							 usuarioId = tipoCuenta.UsuarioId,
+							 nombre = tipoCuenta.Nombre
+						 },
+					     commandType: System.Data.CommandType.StoredProcedure);
+
+
+                tipoCuenta.Id = id;
 			}
 			catch (Exception ex)
 			{
@@ -59,7 +73,7 @@ namespace ControlGastos.Servicios
         {
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryAsync<TipoCuenta>(
-                         @"select Id,Nombre,Orden from TiposCuentas where UsuarioId = @usuarioId",
+                         @"select Id,Nombre,Orden from TiposCuentas where UsuarioId = @usuarioId Order by Orden",
                          new { usuarioId });
         }
 
@@ -77,11 +91,19 @@ namespace ControlGastos.Servicios
 
         }
 
-        public async Task Borrar(int id)
+        async Task IRepositorioTiposCuentas.Borrar(int id)
         {
             using var connection = new SqlConnection(connectionString);
             await connection.ExecuteAsync("delete tiposcuentas where Id = @Id", new { id });
         }
+
+		public async Task Ordenar(IEnumerable<TipoCuenta> tipoCuentasOrdenados)
+		{
+			var query = "update TiposCuentas set orden = @Orden where id = @Id;";
+			using var connection = new SqlConnection(connectionString);
+			await connection.ExecuteAsync(query, tipoCuentasOrdenados);
+		  
+		}
     }
 }
 
