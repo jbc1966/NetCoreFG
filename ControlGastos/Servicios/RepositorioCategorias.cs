@@ -11,6 +11,8 @@ namespace ControlGastos.Servicios
 		Task<IEnumerable<Categoria>> Obtener(int usuarioId);
 		Task<Categoria> ObtenerPorId(int id, int usuarioId);
 		Task Actualizar(Categoria categoria);
+		Task Borrar(int id);
+		Task<IEnumerable<Categoria>> Obtener(int usuarioId, TipoOperacion tipoOperacionId);
     }
 
 	public class RepositorioCategorias: IRepositorioCategorias
@@ -40,8 +42,18 @@ namespace ControlGastos.Servicios
 			return await connection.QueryAsync<Categoria>("select * from categorias where UsuarioId = @usuarioId", new { usuarioId });
 
 		}
+		
+        public async Task<IEnumerable<Categoria>> Obtener(int usuarioId, TipoOperacion tipoOperacionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<Categoria>(
+				@"select * from categorias
+                  where UsuarioId = @usuarioId
+                  and TipoOperacionId = @tipoOperacionId", new { usuarioId, tipoOperacionId});
 
-		public async Task Borrar(int id)
+        }
+
+        public async Task Borrar(int id)
 		{
 			using var connection = new SqlConnection(connectionString);
 			await connection.ExecuteAsync("delete from categorias where Id = @id", new { id });
