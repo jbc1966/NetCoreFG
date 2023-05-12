@@ -1,13 +1,17 @@
-@model TransaccionCrearViewModel
+
+@model TransaccionActualizacionViewModel
 
 @{
-    ViewData["Title"] = "Anotar movimiento";
+    ViewData["Title"] = "Editar movimiento";
 }
 
-<h1>Crear Transacción</h1>
+<h1>Editar Transacción</h1>
 
-<form asp-action="Crear">
+<form asp-action="Editar">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="ImporteAnterior"/>
+    <input type="hidden" asp-for="CuentaAnteriorId"/>
     <div class="mb-3">
         <label asp-for="FechaTransaccion" class="form-label"></label>
         <input asp-for="FechaTransaccion" class="form-control" />
@@ -40,7 +44,8 @@
         <span asp-validation-for="Nota" class="text-danger"></span>
     </div>
 
-    <button class="btn btn-primary">Enviar</button>
+    <button class="btn btn-primary">Actualizar</button>
+    <button class="btn btn-danger" asp-action="Borrar">Borrar</button>
     <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
 
 </form>
@@ -58,5 +63,4 @@
        })
     </script>
 }
-
 
