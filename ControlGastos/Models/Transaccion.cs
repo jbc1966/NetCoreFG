@@ -11,7 +11,8 @@ namespace ControlGastos.Models
 		[Display(Name = "Fecha Transacción")]
 		[DataType(DataType.DateTime)]
 		public DateTime FechaTransaccion { get; set; } = DateTime.Parse(DateTime.Now.ToString("G"));
-		public decimal Importe { get; set; }
+        [RegularExpression("^[0-9]{1.3}(.[0-9]{3})*\\,[0-9]+$")]
+        public decimal Importe { get; set; }
 
 		[Display(Name = "Categoria")]
 		[Range(1, maximum: int.MaxValue, ErrorMessage = "Debe seleccionar una categoría")]

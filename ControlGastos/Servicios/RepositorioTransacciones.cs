@@ -12,6 +12,8 @@ namespace ControlGastos.Servicios
 		Task<Transaccion> ObtenerPorId(int id, int usuarioId);
 		Task Borrar(int id);
 		Task<IEnumerable<Transaccion>> ObtenerPorCuentaId(ObtenerTransaccionesPorCuenta modelo);
+		Task<IEnumerable<Transaccion>> ObtenerPorUsuarioId(ParametroObtenerTransaccionesPorUsuario modelo);
+		Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerPorSemana(ParametroObtenerTransaccionesPorUsuario modelo);
     }
 
 	public class RepositorioTransacciones: IRepositorioTransacciones
@@ -86,6 +88,29 @@ namespace ControlGastos.Servicios
                    and fechatransaccion between @FechaInicio and @FechaFin", modelo);
 
 		}
-	}
+
+        public async Task<IEnumerable<Transaccion>> ObtenerPorUsuarioId(ParametroObtenerTransaccionesPorUsuario modelo)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<Transaccion>
+                (@"select t.Id, t.Importe, t.FechaTransaccion,c.nombre as categoria, cu.nombre as cuenta, c.tipoOperacionId
+                   from transacciones t inner join categorias c on c.Id = t.categoriaId
+                   inner join cuentas cu on cu.Id = t.cuentaId where t.UserId = @UsuarioId
+                   and fechatransaccion between @FechaInicio and @FechaFin order by t.fechatransaccion desc", modelo);
+
+        }
+
+		public async Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerPorSemana(ParametroObtenerTransaccionesPorUsuario modelo)
+		{
+			using var connection = new SqlConnection(connectionString);
+			return await connection.QueryAsync<ResultadoObtenerPorSemana>(@"
+                         select datediff(d, @fechaInicio, FechaTransaccion) / 7 + 1 as Semana,
+                         sum(Importe) as Importe, cat.TipoOperacionId from Transacciones
+                         inner join Categorias cat on cat.Id = Transacciones.categoriaId
+                         where transacciones.UserId = @UsuarioId and fechatransaccion between @fechaInicio and FechaTransaccion
+                         group by datediff(d, @fechaInicio, fechatransaccion) / 7, cat.tipoOperacionId", modelo);
+		}
+
+    }
 }
 

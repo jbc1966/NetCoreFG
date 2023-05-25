@@ -1,6 +1,11 @@
-﻿using ControlGastos.Servicios;
+﻿using System.Globalization;
+using ControlGastos.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var cultureInfo = new CultureInfo("es-ES");
+cultureInfo.NumberFormat.CurrencySymbol = "€";
+cultureInfo.NumberFormat.CurrencyDecimalSeparator = ".";
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -9,6 +14,8 @@ builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
 builder.Services.AddTransient<IRepositorioCuentas, RepositorioCuentas>();
 builder.Services.AddTransient<IRepositorioCategorias, RepositorioCategorias>();
 builder.Services.AddTransient<IRepositorioTransacciones, RepositorioTransacciones>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IServicioReportes, ServicioReportes>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -30,7 +37,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Transacciones}/{action=Index}/{id?}");
 
 app.Run();
 

@@ -1,11 +1,12 @@
 @model IEnumerable<IndiceCuentasViewModel>
+@using System.Globalization;
 
 @{
     ViewData["Title"] = "Cuentas";
 
     string FormatearBalance(decimal balance)
     {
-        return Math.Abs(balance).ToString("N");
+        return Math.Abs(balance).ToString("N",CultureInfo.InvariantCulture);
     }
 
     string ObtenerClaseBalance(decimal balance)

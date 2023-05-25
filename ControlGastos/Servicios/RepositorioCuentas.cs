@@ -49,7 +49,7 @@ namespace ControlGastos.Servicios
 		{
 			using var connection = new SqlConnection(connectionString);
 			return await connection.QueryFirstOrDefaultAsync<Cuenta>(
-                @"select cuentas.id, cuentas.nombre, balance,tc.Id,Descripcion
+                @"select cuentas.id, cuentas.nombre, balance, TipoCuentaId, Descripcion
                   from cuentas inner join TiposCuentas tc on tc.Id = cuentas.TipoCuentaId
                   where tc.usuarioId = @UsuarioId and cuentas.Id = @Id", new {id, usuarioId});
 		}

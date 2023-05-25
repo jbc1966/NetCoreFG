@@ -5,7 +5,7 @@ namespace ControlGastos.Models
 	{
 		public int CuentaAnteriorId { get; set; }
 		public decimal ImporteAnterior { get; set; }
-	
+	    public string urlRetorno { get; set; }
 	}
 }
 
