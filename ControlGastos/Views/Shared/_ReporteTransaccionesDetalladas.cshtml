@@ -1,43 +1,20 @@
 @model ReporteTransaccionesDetalladas
 @using System.Globalization;
 
-<h4>
-    <a asp-route-mes="@ViewBag.mesAnterior" asp-route-año="@ViewBag.añoAnterior"
-       class="btn btn-secondary"><i class="bi-chevron-left"></i></a>
+@{
+    var resumenImportes = new ResumenImportesViewModel()
+    {
+        Ingresos = Model.BalanceIngresos,
+        Gastos = Model.BalanceGastos,
+        Total = Model.Total
+    };
+}
 
-    @Model.FechaInicio.ToString("MMM")-@Model.FechaInicio.Year
 
-    <a asp-route-mes="@ViewBag.mesPosterior" asp-route-año="@ViewBag.añoPosterior"
-       class="btn btn-secondary"><i class="bi-chevron-right"></i></a>
-</h4>
+<partial name="_NavegarPorMeses" model="@Model.FechaInicio"/>
 
-<div class="contenedor-totales mb-3">
-    <div>
-        <div>
-            <strong>Ingresos</strong>
-        </div>
-        <div class="activo">
-            @Model.BalanceIngresos.ToString("N", CultureInfo.InvariantCulture)
-        </div>
-    </div>
-    <div>
-        <div>
-            <strong>Gastos</strong>
-        </div>
-        <div class="pasivo">
-            @Model.BalanceGastos.ToString("N", CultureInfo.InvariantCulture)
-        </div>
-    </div>
-    <div>
-        <div>
-            <strong>Total</strong>
-        </div>
-        <div>
-            @Model.Total.ToString("N", CultureInfo.InvariantCulture)
-        </div>
-    </div>
+<partial name="_ResumenImportes" model="@resumenImportes" />  <!--Colocando la arroba resumenImportes nos aseguramos que mandamos una variable no un string-->
 
-</div>
 
 @if (Model.TransaccionesAgrupadas.Count() == 0)
 {

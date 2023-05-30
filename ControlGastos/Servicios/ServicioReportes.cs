@@ -27,8 +27,7 @@ namespace ControlGastos.Servicios
             this.httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<ReporteTransaccionesDetalladas>
-          ObtenerReporteTransaccionesDetalladas(int usuarioId, int mes, int año, dynamic ViewBag)
+        public async Task<ReporteTransaccionesDetalladas> ObtenerReporteTransaccionesDetalladas(int usuarioId, int mes, int año, dynamic ViewBag)
         {
             (DateTime fechaInicio, DateTime fechaFin) = GenerarFechaInicioYFin(mes, año);
 

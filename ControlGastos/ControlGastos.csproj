@@ -13,6 +13,7 @@
     <None Remove="Views\Cuentas\" />
     <None Remove="Views\Categorias\" />
     <None Remove="Views\Transacciones\" />
+    <None Remove="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\TiposCuentas\" />
@@ -21,6 +22,7 @@
     <Folder Include="Views\Cuentas\" />
     <Folder Include="Views\Categorias\" />
     <Folder Include="Views\Transacciones\" />
+    <Folder Include="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />

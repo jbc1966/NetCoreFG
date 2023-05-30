@@ -1,0 +1,40 @@
+@model ResumenImportesViewModel
+@using System.Globalization;
+
+
+@{ViewData["Title"] = "Resumen Importes";
+}
+
+<div class="contenedor-totales mb-3">
+    <div>
+        <div>
+            <strong>Ingresos</strong>
+        </div>
+        <div class="activo">
+            @Model.Ingresos.ToString("N", CultureInfo.InvariantCulture)
+        </div>
+    </div>
+    <div>
+        <div>
+            <strong>Gastos</strong>
+        </div>
+        <div class="pasivo">
+            @Model.Gastos.ToString("N", CultureInfo.InvariantCulture)
+        </div>
+    </div>
+    <div>
+        <div>
+            <strong>Total</strong>
+        </div>
+        <div>
+            @Model.Total.ToString("N", CultureInfo.InvariantCulture)
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

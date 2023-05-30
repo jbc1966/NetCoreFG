@@ -230,7 +230,7 @@ namespace ControlGastos.Controllers
                 var fechaFin = new DateTime(año, mes, diasSegmentados[i].Last());
                 var grupoSemana = agrupado.FirstOrDefault(x => x.Semana == semana);
                 
-                if(agrupado is null || agrupado.Count == 0)
+                if(grupoSemana is null)
                 {
                     agrupado.Add(new ResultadoObtenerPorSemana()
                     {
@@ -241,8 +241,16 @@ namespace ControlGastos.Controllers
                 }
                 else
                 {
-                    grupoSemana.FechaInicio = fechaInicio;
-                    grupoSemana.FechaFin = fechaFin;
+                 
+                    try
+                    {
+                        grupoSemana.FechaInicio = fechaInicio;
+                        grupoSemana.FechaFin = fechaFin;
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.Message.ToString();
+                    }
                 }
             }
 

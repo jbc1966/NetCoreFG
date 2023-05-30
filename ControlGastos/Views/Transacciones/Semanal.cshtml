@@ -3,14 +3,25 @@
 @{
 
     ViewData["Title"] = "Report Semanal";
-    string FormatearFecha(DateTime fecha) 
+    string FormatearFecha(DateTime fecha)
     {
         return fecha.ToString("MM.dd");
     }
 
+    var resumenImportes = new ResumenImportesViewModel()
+    {
+        Ingresos = Model.Ingresos,
+        Gastos = Model.Gastos,
+        Total = Model.Total
+    };
+
 }
 
 <partial name="_Submenu" Model="SubMenuTransacciones.Semanal"/>
+<partial name="_NavegarPorMeses" model="@Model.FechaReferencia" />
+<partial name="_ResumenImportes" model="@resumenImportes" />
+
+
 
 <table class="table" style="font-size: 20px">
     <thead>
