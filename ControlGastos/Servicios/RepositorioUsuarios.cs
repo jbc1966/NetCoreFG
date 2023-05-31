@@ -27,11 +27,15 @@ namespace ControlGastos.Servicios
 
 			usuario.EmailNormalizado = usuario.Email.ToUpper();
 
-			var id = await connection.QuerySingleAsync<int>(@"
+			var usuarioId = await connection.QuerySingleAsync<int>(@"
              INSERT INTO Usuarios (Nombre,Email, EmailNormalizado, PasswordHash)
-             VALUES(@Email, @Email, @EmailNormalizado,@PasswordHash)", usuario);
+             VALUES(@Email, @Email, @EmailNormalizado,@PasswordHash);
+             SELECT SCOPE_IDENTITY();", usuario);
 
-			return id;
+			await connection.ExecuteAsync("CrearDatosUsuarioNuevo", new { usuarioId },
+				  commandType: System.Data.CommandType.StoredProcedure);
+
+			return usuarioId;
 		}
 
 		public async Task<Usuario> BuscarUsuarioPorEmail(string emailNormalizado)

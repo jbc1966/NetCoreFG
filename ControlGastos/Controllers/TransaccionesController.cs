@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ControlGastos.Models;
 using ControlGastos.Servicios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static ControlGastos.Models.ReporteTransaccionesDetalladas;
@@ -190,6 +191,9 @@ namespace ControlGastos.Controllers
             return Ok(categorias);
         }
 
+
+
+        [Authorize]
         public async Task<IActionResult> Index(int mes, int año)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();

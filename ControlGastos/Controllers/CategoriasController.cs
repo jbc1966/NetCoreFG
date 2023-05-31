@@ -20,11 +20,22 @@ namespace ControlGastos.Controllers
             this.servicioUsuarios = servicioUsuarios;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PaginacionViewModel paginacionViewModel)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-            var categorias = await repositorioCategorias.Obtener(usuarioId);
-            return View(categorias);
+            var categorias = await repositorioCategorias.Obtener(usuarioId, paginacionViewModel);
+            var totalCategorias = await repositorioCategorias.Contar(usuarioId);
+
+            var respuestaVM = new PaginacionRespuesta<Categoria>
+            {
+                Elementos = categorias,
+                Pagina = paginacionViewModel.Pagina,
+                RecordsPorPagina = paginacionViewModel.RecordsPorPagina,
+                CantidadTotalRecords = totalCategorias,
+                BaseURL = "/categorias"
+            };
+
+            return View(respuestaVM);
         }
 
         [HttpGet]
