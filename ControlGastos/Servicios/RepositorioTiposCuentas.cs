@@ -9,7 +9,7 @@ namespace ControlGastos.Servicios
 	public interface IRepositorioTiposCuentas
 	{
 		Task Crear(TipoCuenta tipoCuenta);
-		Task<bool> Existe(string nombre, int UsuarioId);  //Esto se llama llebar la signatura a la interface
+		Task<bool> Existe(string nombre, int UsuarioId, int id = 0);  //Esto se llama llebar la signatura a la interface
 		Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId);
 		Task<TipoCuenta> ObtenerPorId(int id, int usuarioId);
 		Task Actualizar(TipoCuenta tipoCuenta);
@@ -58,13 +58,13 @@ namespace ControlGastos.Servicios
 			}
 		}
 
-		public async Task<bool> Existe(string nombre, int UsuarioId)
+		public async Task<bool> Existe(string nombre, int UsuarioId, int id = 0)
 		{
 			using var connection = new SqlConnection(connectionString);
 			var resultado = await connection.QueryFirstOrDefaultAsync<int>
 							(@"select 1 from TiposCuentas
-                               where nombre = @Nombre and UsuarioId = @UsuarioId;",
-							   new { nombre, UsuarioId});
+                               where nombre = @Nombre and UsuarioId = @UsuarioId and Id <> @id;",
+							   new { nombre, UsuarioId, id});
 
 			return resultado == 1;
 		}

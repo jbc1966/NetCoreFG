@@ -14,7 +14,7 @@ namespace ControlGastos.Models
 		[PrimeraLetraMayuscula]
 		[Display(Name ="Nombre de la cuenta")]
 		// Añado la validación de que no existe la cuenta sin que el usuario pinche en Enviar
-		[Remote(action:"VerificarExisteTipoCuenta", controller:"TiposCuentas")]
+		[Remote(action:"VerificarExisteTipoCuenta", controller:"TiposCuentas", AdditionalFields = nameof(Id))]
 		public string Nombre { get; set; }
         public int UsuarioId { get; set; }
 		public int Orden { get; set; }

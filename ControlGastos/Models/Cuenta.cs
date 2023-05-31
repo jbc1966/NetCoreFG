@@ -18,8 +18,9 @@ namespace ControlGastos.Models
 		[Display(Name ="Tipo Cuenta")]
 		public int TipoCuentaId { get; set; }
 
-		[RegularExpression("^[0-9]{1,3}(,[0-9]{3})*\\.[0-9]+$")]
-		public decimal Balance { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N}",  ApplyFormatInEditMode = true)]
+        public decimal Balance { get; set; }
+
 		[StringLength(maximumLength:200)]
 		public string Descripcion { get; set; }
         public string TipoCuenta { get; set; }

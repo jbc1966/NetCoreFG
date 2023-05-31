@@ -8,6 +8,7 @@ using ControlGastos.Models;
 using ControlGastos.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 
 namespace ControlGastos.Controllers
 {
@@ -60,6 +61,7 @@ namespace ControlGastos.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear(CuentaCreacionViewModel cuenta)
         {
+          
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(cuenta.TipoCuentaId, usuarioId);
 
