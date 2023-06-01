@@ -18,8 +18,9 @@ namespace ControlGastos.Models
 		[Display(Name ="Tipo Cuenta")]
 		public int TipoCuentaId { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:N}",  ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:N}",  ApplyFormatInEditMode = true)] //Definir este display format para todos los números decimales 
         public decimal Balance { get; set; }
+	   // public string Balance { get; set; }
 
 		[StringLength(maximumLength:200)]
 		public string Descripcion { get; set; }

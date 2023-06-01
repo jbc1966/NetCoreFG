@@ -11,7 +11,9 @@ namespace ControlGastos.Models
 		[Display(Name = "Fecha Transacción")]
 		[DataType(DataType.DateTime)]
 		public DateTime FechaTransaccion { get; set; } = DateTime.Parse(DateTime.Now.ToString("G"));
-        [RegularExpression("^[0-9]{1.3}(.[0-9]{3})*\\,[0-9]+$")]
+        // [RegularExpression("^[0-9]{1.3}(.[0-9]{3})*\\,[0-9]+$")]
+
+        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)] //Definir este displayformat para todos los campos decimales
         public decimal Importe { get; set; }
 
 		[Display(Name = "Categoria")]
