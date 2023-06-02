@@ -14,6 +14,7 @@ namespace ControlGastos.Servicios
 		Task<IEnumerable<Transaccion>> ObtenerPorCuentaId(ObtenerTransaccionesPorCuenta modelo);
 		Task<IEnumerable<Transaccion>> ObtenerPorUsuarioId(ParametroObtenerTransaccionesPorUsuario modelo);
 		Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerPorSemana(ParametroObtenerTransaccionesPorUsuario modelo);
+		Task<IEnumerable<ResultadoObtenerPorMes>> ObtenerPorMes(int usuarioId, int año);
     }
 
 	public class RepositorioTransacciones: IRepositorioTransacciones
@@ -111,6 +112,17 @@ namespace ControlGastos.Servicios
                          group by datediff(d, @fechaInicio, fechatransaccion) / 7, cat.tipoOperacionId", modelo);
 		}
 
+		public async Task<IEnumerable<ResultadoObtenerPorMes>> ObtenerPorMes(int usuarioId, int año)
+		{
+            using var connection = new SqlConnection(connectionString);
+			return await connection.QueryAsync<ResultadoObtenerPorMes>(@"
+                         select month(FechaTransaccion) as Mes,
+                         sum(Importe) as Importe, cat.TipoOperacionId from transacciones
+                         inner join categorias cat on cat.Id = transacciones.categoriaId
+                         where transacciones.UserId = @usuarioId and year(FechaTransaccion) = @año
+                         group by month(FechaTransaccion), cat.tipoOperacionId", new {usuarioId,año});
+
+        }
     }
 }
 

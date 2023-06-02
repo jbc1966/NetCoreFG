@@ -23,11 +23,15 @@
     <Folder Include="Views\Categorias\" />
     <Folder Include="Views\Transacciones\" />
     <Folder Include="Views\Usuarios\" />
+    <Folder Include="wwwroot\lib\fullcalendar\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\fullcalendar\" />
   </ItemGroup>
 </Project>

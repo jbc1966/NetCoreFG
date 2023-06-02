@@ -4,7 +4,7 @@
     ViewData["Title"] = "Anotar movimiento";
 }
 
-<h1>Crear Transacción</h1>
+<h1>Nuevo Movimiento</h1>
 
 <div class="card">
     <div class="card-body">
@@ -16,7 +16,7 @@
                 <span asp-validation-for="FechaTransaccion" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="CuentaId" class="form-label"></label>
+                <label asp-for="CuentaId" class="form-label">Cuenta de Cargo</label>
                 <select asp-for="CuentaId" asp-items="Model.Cuentas" class="form-select"></select>
                 <span asp-validation-for="CuentaId" class="text-danger"></span>
             </div>
